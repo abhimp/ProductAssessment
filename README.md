@@ -70,3 +70,38 @@ GET /revenue_trends?start_date=2024-01-01&end_date=2024-12-31&interval=quarterly
 - The server automatically updates the database from the CSV file every 60 seconds and creates a timestamped backup after each update.
 - If any required numeric field in a row is invalid, that row is skipped.
 - The API runs on port `8080` by default.
+
+---
+
+## Database Schema
+
+```mermaid
+erDiagram
+    CUSTOMER {
+        STRING id PK
+        STRING name
+        STRING email
+        STRING address
+        STRING other_details
+    }
+    PRODUCT {
+        STRING id PK
+        STRING name
+        STRING category
+    }
+    "ORDER" {
+        STRING id PK
+        STRING customer_id FK
+        STRING product_id FK
+        STRING region
+        STRING date
+        INTEGER quantity
+        FLOAT unit_price
+        FLOAT discount
+        FLOAT shipping_cost
+        STRING payment_method
+    }
+
+    CUSTOMER ||--o{ "ORDER" : places
+    PRODUCT  ||--o{ "ORDER" : contains
+```
